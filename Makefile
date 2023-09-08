@@ -1,4 +1,4 @@
-forge script script/Interactions.s.sol:FundFundMe-include .env #instead of manually type source .env
+-include .env #instead of manually type source .env
 
 format:
 	forge fmt
@@ -23,5 +23,5 @@ deploy-anvil:
 deploy-sepolia:
 	forge script script/FundmeDeploy.s.sol --rpc-url $(SEPOLIA_ALCHEMY_RPC_URL) --private-key $(METAMASK_PRIVATE_KEY) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvv
 
-interaction-script:
-	forge script script/Interactions.s.sol:FundFundMe
+interaction:
+	forge script script/Interactions.s.sol:FundInteraction --rpc-url $(SEPOLIA_ALCHEMY_RPC_URL)  --private-key $(METAMASK_PRIVATE_KEY)  --broadcast

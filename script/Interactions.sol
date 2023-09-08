@@ -7,12 +7,14 @@ import {DevOpsTools} from "foundry-devops/src/DevOpsTools.sol";
 import {FundMe} from "../src/FundMe.sol";
 
 contract FundInteraction is Script {
-    uint256 constant FOUNDING_CONTRACT_AMOUNT = 0.01 ether;
+    uint256 constant FUNDING_CONTRACT_AMOUNT = 0.01 ether;
 
     function fundFundMe(address contractDeployment) public {
+        vm.startBroadcast(); //collects tx for onchain broadcasting vm.startBroadcast(); //collects tx for onchain broadcasting
         FundMe(payable(contractDeployment)).fund{
-            value: FOUNDING_CONTRACT_AMOUNT
+            value: FUNDING_CONTRACT_AMOUNT
         }();
+        vm.stopBroadcast();
     }
 
     function run() external {
@@ -21,12 +23,6 @@ contract FundInteraction is Script {
         ffi=true in the foundry.toml*/
         address mostRecentlyDeployedFundMe = DevOpsTools
             .get_most_recent_deployment("FundMe", block.chainid);
-        vm.startBroadcast(); //collects tx for onchain broadcasting
         fundFundMe(mostRecentlyDeployedFundMe);
-        vm.stopBroadcast();
     }
-}
-
-contract WithdrawInteraction is Script {
-    function run() external {}
 }

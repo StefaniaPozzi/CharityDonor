@@ -92,15 +92,15 @@ contract FundMeTest is Test {
     }
 
     function test_successWithdrawMultipleFounders() public m_funded {
-        uint160 numFounders = 3;
+        uint160 numFounders = 10;
         uint160 startIndex = 1;
         for (uint160 i = startIndex; i < numFounders; i++) {
-            vm.startPrank(address(i));
-            vm.deal(address(i), AMOUNT_TO_BE_SENT);
-            fundMe.fund{value: AMOUNT_TO_BE_SENT};
-            vm.stopPrank();
-            // hoax(address(i), AMOUNT_TO_BE_SENT);
+            // vm.startPrank(address(i));
+            // vm.deal(address(i), AMOUNT_TO_BE_SENT);
             // fundMe.fund{value: AMOUNT_TO_BE_SENT};
+            // vm.stopPrank();
+            hoax(address(i), AMOUNT_TO_BE_SENT);
+            fundMe.fund{value: AMOUNT_TO_BE_SENT}();
         }
 
         uint256 startingOwnerBalance = fundMe.getOwner().balance;
